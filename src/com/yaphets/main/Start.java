@@ -9,14 +9,11 @@ public class Start {
     public static void main(String[] args) {
         MainView view = new MainView();
 
-        boolean exit = false;
-        while (!exit) {
+        while (true) {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            } finally {
-                exit = true;
             }
             view.repaint();
         }
