@@ -25,7 +25,8 @@ public class EnemyTank extends Tank {
     @Override
     protected void move(Graphics g) {
         if (random.nextInt(100) > 95) {
-            setMoveDir(MoveDir.values()[random.nextInt(MoveDir.values().length)]);
+            //-1的原因为去除STOP状态,否则可能随机出停止状态导致坦克半天不移动
+            setMoveDir(MoveDir.values()[random.nextInt(MoveDir.values().length - 1)]);
         }
     }
 }
