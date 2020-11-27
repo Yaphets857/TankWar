@@ -2,6 +2,7 @@ package com.yaphets.model;
 
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
+import com.yaphets.utils.GamePropertiesMgr;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,36 +11,21 @@ import java.awt.image.BufferedImage;
  * @author gszqy
  * @date 15:54 2020/11/26
  */
-public class Tank {
-    /**
-     * 坦克宽度
-     */
-    private static final int WIDTH = 50;
-
-    /**
-     * 坦克高度
-     */
-    private static final int HEIGHT = 50;
-
-    /**
-     * 坦克移动速度
-     */
-    private static final int SPEED = 5;
-
+public abstract class Tank {
     /**
      * 坦克坐标
      */
-    private GamePoint<Integer> gamePoint;
+    protected GamePoint<Integer> gamePoint;
 
     /**
      * 坦克移动方向
      */
-    private MoveDir moveDir = MoveDir.MOVE_STOP;
+    protected MoveDir moveDir;
 
     /**
      * 坦克图片
      */
-    private BufferedImage image;
+    protected BufferedImage image;
 
     public Tank(int x, int y, MoveDir moveDir, BufferedImage image) {
         gamePoint = new GamePoint<>(x, y);
@@ -51,8 +37,14 @@ public class Tank {
         this(gamePoint.getX(), gamePoint.getY(), moveDir, image);
     }
 
+    /**
+     * 子类去实现具体的绘制策略
+     * @param g: 画笔
+     */
+    protected abstract void draw(Graphics g);
+
     public void paint(Graphics g) {
-        g.drawImage(image, gamePoint.getX(), gamePoint.getY(), WIDTH, HEIGHT, null);
+        draw(g);
     }
 
     public GamePoint<Integer> getGamePoint() {

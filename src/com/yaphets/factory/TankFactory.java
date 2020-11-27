@@ -3,6 +3,8 @@ package com.yaphets.factory;
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
 import com.yaphets.exception.GameException;
+import com.yaphets.model.EnemyTank;
+import com.yaphets.model.PlayerTank;
 import com.yaphets.model.Tank;
 import com.yaphets.utils.GamePropertiesMgr;
 import com.yaphets.utils.GameResourceMgr;
@@ -71,9 +73,9 @@ public class TankFactory {
         checkBoundary(gamePoint);
 
         if (playerTotal == 0) {
-            tankPlayers.add(new Tank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player1PImage));
+            tankPlayers.add(new PlayerTank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player1PImage));
         }else if (playerTotal == 1){
-            tankPlayers.add(new Tank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player2PImage));
+            tankPlayers.add(new PlayerTank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player2PImage));
         }
 
         playerTotal++;
@@ -106,7 +108,7 @@ public class TankFactory {
         if (random.nextInt(100) > 90) {
             image = GameResourceMgr.strongEnemyImage;
         }
-        tankEnemys.add(new Tank(gamePoint, MoveDir.MOVE_STOP, image));
+        tankEnemys.add(new EnemyTank(gamePoint, MoveDir.MOVE_STOP, image));
     }
 
     /**

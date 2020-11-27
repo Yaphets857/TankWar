@@ -1,5 +1,6 @@
 package com.yaphets.control;
 
+import com.yaphets.enums.MoveDir;
 import com.yaphets.factory.TankFactory;
 import com.yaphets.model.Tank;
 import com.yaphets.utils.GamePropertiesMgr;
@@ -18,6 +19,12 @@ public class GameScene {
     private GameView view;
     private Random random = new Random();
 
+    /**
+     * 是否被按下
+     */
+    private boolean bUp, bDown, bLeft, bRight;
+
+
     public GameScene(GameView view) {
         this.view = view;
         init();
@@ -33,7 +40,7 @@ public class GameScene {
      */
     private void initPlayers() {
         TankFactory.getInstance().createPlayers(random.nextInt(GamePropertiesMgr.GAME_WIDTH), random.nextInt(GamePropertiesMgr.GAME_HEIGHT));
-        TankFactory.getInstance().createPlayers(random.nextInt(GamePropertiesMgr.GAME_WIDTH), random.nextInt(GamePropertiesMgr.GAME_HEIGHT));
+//        TankFactory.getInstance().createPlayers(random.nextInt(GamePropertiesMgr.GAME_WIDTH), random.nextInt(GamePropertiesMgr.GAME_HEIGHT));
     }
 
     /**
@@ -79,14 +86,47 @@ public class GameScene {
      * 管理键盘按下事件响应处理
      */
     public void keyPressed(KeyEvent e) {
-        System.out.println("pressed!");
+        int keyCode = e.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.VK_UP:
+                bUp = true;
+                break;
+            case KeyEvent.VK_DOWN:
+                bDown = true;
+                break;
+            case KeyEvent.VK_LEFT:
+                bLeft = true;
+                break;
+            case KeyEvent.VK_RIGHT:
+                bRight = true;
+                break;
+            default:
+                break;
+        }
+
+        MoveDir dir = MoveDir.MOVE_STOP;
+        if (bUp) {
+            dir = MoveDir.MOVE_UP;
+        }
+        if (bDown) {
+            dir = MoveDir.MOVE_DOWN;
+        }
+        if (bLeft) {
+            dir = MoveDir.MOVE_LEFT;
+        }
+        if (bRight) {
+            dir = MoveDir.MOVE_RIGHT;
+        }
+
+        TankFactory.getInstance().getPlayers().get(0).setMoveDir(dir);
     }
 
     /**
      * 管理键盘松开事件响应处理
      */
     public void keyReleased(KeyEvent e) {
-        System.out.println("released!");
+        bUp = bDown = bLeft = bRight = false;
+        TankFactory.getInstance().getPlayers().get(0).setMoveDir(MoveDir.MOVE_STOP);
     }
 
 }
