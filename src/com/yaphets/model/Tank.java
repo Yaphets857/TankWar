@@ -3,6 +3,8 @@ package com.yaphets.model;
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
 import com.yaphets.utils.GamePropertiesMgr;
+import com.yaphets.utils.GameResourceMgr;
+import com.yaphets.utils.ImageUtil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,12 +27,16 @@ public abstract class Tank {
     /**
      * 坦克图片
      */
-    protected BufferedImage image;
+    protected BufferedImage imageUp, imageDown, imageLeft, imageRight;
 
     public Tank(int x, int y, MoveDir moveDir, BufferedImage image) {
         gamePoint = new GamePoint<>(x, y);
         this.moveDir = moveDir;
-        this.image = image;
+        this.imageUp = image;
+
+        imageDown = ImageUtil.rotateImage(image, 180);
+        imageLeft = ImageUtil.rotateImage(image, -90);
+        imageRight = ImageUtil.rotateImage(image, 90);
     }
 
     public Tank(GamePoint<Integer> gamePoint, MoveDir moveDir, BufferedImage image) {
@@ -39,12 +45,27 @@ public abstract class Tank {
 
     /**
      * 子类去实现具体的绘制策略
+     *
      * @param g: 画笔
      */
     protected abstract void draw(Graphics g);
 
     public void paint(Graphics g) {
         draw(g);
+    }
+
+    /**
+     * 边界线制
+     */
+    protected void checkBoundary(GamePoint<Integer> gamePoint) {
+        int x = Math.max(gamePoint.getX(), 2);
+        int y = Math.max(gamePoint.getY(), 28);
+        int imageWidth = imageUp.getWidth();
+        int imageHeight = imageUp.getHeight();
+        x = (x + imageWidth >= GamePropertiesMgr.GAME_WIDTH) ? (GamePropertiesMgr.GAME_WIDTH - imageWidth) : x;
+        y = (y + imageHeight >= GamePropertiesMgr.GAME_HEIGHT) ? (GamePropertiesMgr.GAME_HEIGHT - imageHeight) : y;
+        gamePoint.setX(x);
+        gamePoint.setY(y);
     }
 
     public GamePoint<Integer> getGamePoint() {
@@ -63,11 +84,11 @@ public abstract class Tank {
         this.moveDir = moveDir;
     }
 
-    public BufferedImage getImage() {
-        return image;
+    public BufferedImage getImageUp() {
+        return imageUp;
     }
 
-    public void setImage(BufferedImage image) {
-        this.image = image;
+    public void setImageUp(BufferedImage imageUp) {
+        this.imageUp = imageUp;
     }
 }

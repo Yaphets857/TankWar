@@ -2,7 +2,6 @@ package com.yaphets.model;
 
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
-import com.yaphets.utils.GameResourceMgr;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -22,6 +21,6 @@ public class EnemyTank extends Tank {
 
     @Override
     protected void draw(Graphics g) {
-        g.drawImage(image, gamePoint.getX(), gamePoint.getY(), image.getWidth(), image.getHeight(), null);
+        g.drawImage(imageUp, gamePoint.getX(), gamePoint.getY(), imageUp.getWidth(), imageUp.getHeight(), null);
     }
 }

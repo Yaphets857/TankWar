@@ -73,9 +73,9 @@ public class TankFactory {
         checkBoundary(gamePoint);
 
         if (playerTotal == 0) {
-            tankPlayers.add(new PlayerTank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player1PImage));
+            tankPlayers.add(new PlayerTank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player1PImageUp));
         }else if (playerTotal == 1){
-            tankPlayers.add(new PlayerTank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player2PImage));
+            tankPlayers.add(new PlayerTank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player2PImageUp));
         }
 
         playerTotal++;
@@ -84,8 +84,8 @@ public class TankFactory {
     private void checkBoundary(GamePoint<Integer> gamePoint) {
         int x = Math.max(gamePoint.getX(), 2);
         int y = Math.max(gamePoint.getY(), 28);
-        int imageWidth = GameResourceMgr.player1PImage.getWidth();
-        int imageHeight = GameResourceMgr.player1PImage.getHeight();
+        int imageWidth = GameResourceMgr.player1PImageUp.getWidth();
+        int imageHeight = GameResourceMgr.player1PImageUp.getHeight();
         x = (x + imageWidth >= GamePropertiesMgr.GAME_WIDTH) ? (GamePropertiesMgr.GAME_WIDTH - imageWidth) : x;
         y = (y + imageHeight >= GamePropertiesMgr.GAME_HEIGHT) ? (GamePropertiesMgr.GAME_HEIGHT - imageHeight) : y;
         gamePoint.setX(x);
@@ -98,7 +98,7 @@ public class TankFactory {
      */
     public void createEnemys(int x, int y) {
 
-        BufferedImage image = GameResourceMgr.normalEnemyImage;
+        BufferedImage image = GameResourceMgr.normalEnemyImageUp;
 
         /*限定玩家位置在窗口内*/
         GamePoint<Integer> gamePoint = new GamePoint<>(x, y);
@@ -106,7 +106,7 @@ public class TankFactory {
 
         //10%的概率创建strongEnemy
         if (random.nextInt(100) > 90) {
-            image = GameResourceMgr.strongEnemyImage;
+            image = GameResourceMgr.strongEnemyImageUp;
         }
         tankEnemys.add(new EnemyTank(gamePoint, MoveDir.MOVE_STOP, image));
     }
