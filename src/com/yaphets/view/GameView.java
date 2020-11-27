@@ -34,6 +34,7 @@ public class GameView extends Frame {
         setTitle("Tank War");
         setSize(GamePropertiesMgr.GAME_WIDTH, GamePropertiesMgr.GAME_HEIGHT);
         setResizable(false);
+        setBackground(Color.black);
         setVisible(true);
     }
 

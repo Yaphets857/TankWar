@@ -21,36 +21,7 @@ public class PlayerTank extends Tank {
     }
 
     @Override
-    protected void draw(Graphics g) {
-        move(g);
-    }
+    protected void move(Graphics g) {
 
-    private void move(Graphics g) {
-        BufferedImage image = null;
-        switch (moveDir) {
-            case MOVE_UP:
-                image = imageUp;
-                gamePoint.setY(gamePoint.getY() - GamePropertiesMgr.PLAYER_SPEED);
-                break;
-            case MOVE_DOWN:
-                image = imageDown;
-                gamePoint.setY(gamePoint.getY() + GamePropertiesMgr.PLAYER_SPEED);
-                break;
-            case MOVE_LEFT:
-                image = imageLeft;
-                gamePoint.setX(gamePoint.getX() - GamePropertiesMgr.PLAYER_SPEED);
-                break;
-            case MOVE_RIGHT:
-                image = imageRight;
-                gamePoint.setX(gamePoint.getX() + GamePropertiesMgr.PLAYER_SPEED);
-                break;
-            default:
-                break;
-        }
-
-        checkBoundary(gamePoint);
-        if (image != null) {
-            g.drawImage(image, gamePoint.getX(), gamePoint.getY(), image.getWidth(), image.getHeight(), null);
-        }
     }
 }

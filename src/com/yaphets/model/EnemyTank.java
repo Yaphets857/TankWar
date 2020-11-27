@@ -5,12 +5,15 @@ import com.yaphets.enums.MoveDir;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 /**
  * @author gszqy
  * @date 13:57 2020/11/27
  */
 public class EnemyTank extends Tank {
+    private final Random random = new Random();
+
     public EnemyTank(int x, int y, MoveDir moveDir, BufferedImage image) {
         super(x, y, moveDir, image);
     }
@@ -20,7 +23,9 @@ public class EnemyTank extends Tank {
     }
 
     @Override
-    protected void draw(Graphics g) {
-        g.drawImage(imageUp, gamePoint.getX(), gamePoint.getY(), imageUp.getWidth(), imageUp.getHeight(), null);
+    protected void move(Graphics g) {
+        if (random.nextInt(100) > 95) {
+            setMoveDir(MoveDir.values()[random.nextInt(MoveDir.values().length)]);
+        }
     }
 }

@@ -29,6 +29,17 @@ public abstract class Tank {
      */
     protected BufferedImage imageUp, imageDown, imageLeft, imageRight;
 
+    /**
+     * 记录当前的方向图片
+     */
+    private BufferedImage currImage;
+
+    /**
+     * 记录上一次停止前的方向图片
+     */
+    private BufferedImage lastImage;
+
+
     public Tank(int x, int y, MoveDir moveDir, BufferedImage image) {
         gamePoint = new GamePoint<>(x, y);
         this.moveDir = moveDir;
@@ -37,22 +48,56 @@ public abstract class Tank {
         imageDown = ImageUtil.rotateImage(image, 180);
         imageLeft = ImageUtil.rotateImage(image, -90);
         imageRight = ImageUtil.rotateImage(image, 90);
+        currImage = lastImage = imageUp;
     }
 
     public Tank(GamePoint<Integer> gamePoint, MoveDir moveDir, BufferedImage image) {
         this(gamePoint.getX(), gamePoint.getY(), moveDir, image);
     }
 
-    /**
-     * 子类去实现具体的绘制策略
-     *
-     * @param g: 画笔
-     */
-    protected abstract void draw(Graphics g);
+    protected void draw(Graphics g) {
+        switch (moveDir) {
+            case MOVE_UP:
+                currImage = imageUp;
+                gamePoint.setY(gamePoint.getY() - GamePropertiesMgr.PLAYER_SPEED);
+                break;
+            case MOVE_DOWN:
+                currImage = imageDown;
+                gamePoint.setY(gamePoint.getY() + GamePropertiesMgr.PLAYER_SPEED);
+                break;
+            case MOVE_LEFT:
+                currImage = imageLeft;
+                gamePoint.setX(gamePoint.getX() - GamePropertiesMgr.PLAYER_SPEED);
+                break;
+            case MOVE_RIGHT:
+                currImage = imageRight;
+                gamePoint.setX(gamePoint.getX() + GamePropertiesMgr.PLAYER_SPEED);
+                break;
+            default:
+                lastImage = currImage;
+                break;
+        }
+
+        checkBoundary(gamePoint);
+        if (currImage != null) {
+            g.drawImage(currImage, gamePoint.getX(), gamePoint.getY(), currImage.getWidth(), currImage.getHeight(), null);
+        }else {
+            g.drawImage(lastImage, gamePoint.getX(), gamePoint.getY(), lastImage.getWidth(), lastImage.getHeight(), null);
+        }
+
+        move(g);
+    }
 
     public void paint(Graphics g) {
         draw(g);
     }
+
+    /**
+     * 子类去实现具体的移动策略
+     *
+     * @param g: 画笔
+     */
+    protected abstract void move(Graphics g);
 
     /**
      * 边界线制

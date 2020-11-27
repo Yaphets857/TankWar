@@ -125,8 +125,40 @@ public class GameScene {
      * 管理键盘松开事件响应处理
      */
     public void keyReleased(KeyEvent e) {
-        bUp = bDown = bLeft = bRight = false;
-        TankFactory.getInstance().getPlayers().get(0).setMoveDir(MoveDir.MOVE_STOP);
+        int keyCode = e.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.VK_UP:
+                bUp = false;
+                break;
+            case KeyEvent.VK_DOWN:
+                bDown = false;
+                break;
+            case KeyEvent.VK_LEFT:
+                bLeft = false;
+                break;
+            case KeyEvent.VK_RIGHT:
+                bRight = false;
+                break;
+            default:
+                break;
+        }
+
+        MoveDir dir = MoveDir.MOVE_STOP;
+
+        if (bUp) {
+            dir = MoveDir.MOVE_UP;
+        }
+        if (bDown) {
+            dir = MoveDir.MOVE_DOWN;
+        }
+        if (bLeft) {
+            dir = MoveDir.MOVE_LEFT;
+        }
+        if (bRight) {
+            dir = MoveDir.MOVE_RIGHT;
+        }
+
+        TankFactory.getInstance().getPlayers().get(0).setMoveDir(dir);
     }
 
 }
