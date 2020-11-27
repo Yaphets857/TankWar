@@ -1,5 +1,6 @@
 package com.yaphets.factory;
 
+import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
 import com.yaphets.exception.GameException;
 import com.yaphets.model.Tank;
@@ -61,11 +62,6 @@ public class TankFactory {
         return instance;
     }
 
-    private void checkBoundary(Integer x, Integer y, Integer width, Integer height) {
-        x = (x + width >= GamePropertiesMgr.GAME_WIDTH) ? (GamePropertiesMgr.GAME_WIDTH - width + 10) : x;
-        y = (y + height >= GamePropertiesMgr.GAME_HEIGHT) ? (GamePropertiesMgr.GAME_HEIGHT - height + 10) : y;
-    }
-
     /**
      * x: 玩家初始x坐标
      * y: 玩家初始y坐标
@@ -76,15 +72,27 @@ public class TankFactory {
         }
 
         /*限定玩家位置在窗口内*/
-        checkBoundary(x, y, GameResourceMgr.player1PImage.getWidth(), GameResourceMgr.player2PImage.getHeight());
+        GamePoint<Integer> gamePoint = new GamePoint<>(x, y);
+        checkBoundary(gamePoint);
 
         if (playerTotal == 0) {
-            tankPlayers.add(new Tank(x, y, MoveDir.MOVE_STOP, GameResourceMgr.player1PImage));
+            tankPlayers.add(new Tank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player1PImage));
         }else if (playerTotal == 1){
-            tankPlayers.add(new Tank(x, y, MoveDir.MOVE_STOP, GameResourceMgr.player2PImage));
+            tankPlayers.add(new Tank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player2PImage));
         }
 
         playerTotal++;
+    }
+
+    private void checkBoundary(GamePoint<Integer> gamePoint) {
+        int x = Math.max(gamePoint.getX(), 2);
+        int y = Math.max(gamePoint.getY(), 28);
+        int imageWidth = GameResourceMgr.player1PImage.getWidth();
+        int imageHeight = GameResourceMgr.player1PImage.getHeight();
+        x = (x + imageWidth >= GamePropertiesMgr.GAME_WIDTH) ? (GamePropertiesMgr.GAME_WIDTH - imageWidth) : x;
+        y = (y + imageHeight >= GamePropertiesMgr.GAME_HEIGHT) ? (GamePropertiesMgr.GAME_HEIGHT - imageHeight) : y;
+        gamePoint.setX(x);
+        gamePoint.setY(y);
     }
 
     /**
@@ -93,15 +101,17 @@ public class TankFactory {
      */
     public void createEnemys(int x, int y) {
 
-        /*限定玩家位置在窗口内*/
-        checkBoundary(x, y, GameResourceMgr.normalEnemyImage.getWidth(), GameResourceMgr.normalEnemyImage.getHeight());
-
         BufferedImage image = GameResourceMgr.normalEnemyImage;
+
+        /*限定玩家位置在窗口内*/
+        GamePoint<Integer> gamePoint = new GamePoint<>(x, y);
+        checkBoundary(gamePoint);
+
         //10%的概率创建strongEnemy
         if (random.nextInt(100) > 90) {
             image = GameResourceMgr.strongEnemyImage;
         }
-        tankEnemys.add(new Tank(x, y, MoveDir.MOVE_STOP, image));
+        tankEnemys.add(new Tank(gamePoint, MoveDir.MOVE_STOP, image));
     }
 
     /**

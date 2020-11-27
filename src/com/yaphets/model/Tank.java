@@ -1,5 +1,6 @@
 package com.yaphets.model;
 
+import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
 
 import java.awt.*;
@@ -28,7 +29,7 @@ public class Tank {
     /**
      * 坦克坐标
      */
-    private int x, y;
+    private GamePoint<Integer> gamePoint;
 
     /**
      * 坦克移动方向
@@ -41,30 +42,25 @@ public class Tank {
     private BufferedImage image;
 
     public Tank(int x, int y, MoveDir moveDir, BufferedImage image) {
-        this.x = x;
-        this.y = y;
+        gamePoint = new GamePoint<>(x, y);
         this.moveDir = moveDir;
         this.image = image;
     }
 
+    public Tank(GamePoint<Integer> gamePoint, MoveDir moveDir, BufferedImage image) {
+        this(gamePoint.getX(), gamePoint.getY(), moveDir, image);
+    }
+
     public void paint(Graphics g) {
-        g.drawImage(image, x, y, WIDTH, HEIGHT, null);
+        g.drawImage(image, gamePoint.getX(), gamePoint.getY(), WIDTH, HEIGHT, null);
     }
 
-    public int getX() {
-        return x;
+    public GamePoint<Integer> getGamePoint() {
+        return gamePoint;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+    public void setGamePoint(GamePoint<Integer> gamePoint) {
+        this.gamePoint = gamePoint;
     }
 
     public MoveDir getMoveDir() {

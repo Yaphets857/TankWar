@@ -25,12 +25,12 @@ public class GamePropertiesMgr {
      * 敌人移动速度
      */
     public static int ENEMY_SPEED;
-    
-    /** 
+
+    /**
      * 子弹移动速度
      */
     public static int BULLET_SPEED;
-    
+
     /**
      * 初始敌人数量
      */
@@ -40,7 +40,7 @@ public class GamePropertiesMgr {
         Properties properties = new Properties();
         ClassLoader classLoader = GameResourceMgr.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(".config.properties");
-        try {
+        try (inputStream){
             properties.load(inputStream);
             GAME_WIDTH = Integer.parseInt(properties.getProperty("gameWidth", "800"));
             GAME_HEIGHT = Integer.parseInt(properties.getProperty("gameHeight", "600"));
@@ -51,15 +51,9 @@ public class GamePropertiesMgr {
 
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            GAME_WIDTH = 800;
-            GAME_HEIGHT = 600;
-            PLAYER_SPEED = 5;
-            ENEMY_SPEED = 5;
-            BULLET_SPEED = 10;
-            INIT_ENEMY_CNT = 10;
         }
     }
 
-    private GamePropertiesMgr() {}
+    private GamePropertiesMgr() {
+    }
 }

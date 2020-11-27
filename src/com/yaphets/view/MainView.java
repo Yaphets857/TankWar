@@ -26,7 +26,7 @@ public class MainView extends Frame {
 
     public MainView() throws HeadlessException {
         initUI();
-        initPlayer();
+        initPlayers();
         initEnemys();
         registerListener();
     }
@@ -38,7 +38,7 @@ public class MainView extends Frame {
         setVisible(true);
     }
 
-    private void initPlayer() {
+    private void initPlayers() {
         TankFactory.getInstance().createPlayers(random.nextInt(GamePropertiesMgr.GAME_WIDTH), random.nextInt(GamePropertiesMgr.GAME_HEIGHT));
         TankFactory.getInstance().createPlayers(random.nextInt(GamePropertiesMgr.GAME_WIDTH), random.nextInt(GamePropertiesMgr.GAME_HEIGHT));
     }
