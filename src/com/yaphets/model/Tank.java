@@ -8,6 +8,8 @@ import com.yaphets.utils.ImageUtil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author gszqy
@@ -39,6 +41,10 @@ public abstract class Tank {
      */
     private BufferedImage lastImage;
 
+    /**
+     * 子弹集合
+     */
+    protected List<Bullet> bulletList = new LinkedList<>();
 
     public Tank(int x, int y, MoveDir moveDir, BufferedImage image) {
         gamePoint = new GamePoint<>(x, y);
@@ -111,6 +117,10 @@ public abstract class Tank {
         y = (y + imageHeight >= GamePropertiesMgr.GAME_HEIGHT) ? (GamePropertiesMgr.GAME_HEIGHT - imageHeight) : y;
         gamePoint.setX(x);
         gamePoint.setY(y);
+    }
+
+    public List<Bullet> getBulletList() {
+        return bulletList;
     }
 
     public GamePoint<Integer> getGamePoint() {

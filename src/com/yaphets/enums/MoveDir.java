@@ -6,11 +6,11 @@ package com.yaphets.enums;
  */
 public enum MoveDir {
     /**
-    * 上、下、左、右、停止
+    * 上、右、下、左、停止 (顺时针定义)
     */
     MOVE_UP,
+    MOVE_RIGHT,
     MOVE_DOWN,
     MOVE_LEFT,
-    MOVE_RIGHT,
-    MOVE_STOP;
+    MOVE_STOP
 }

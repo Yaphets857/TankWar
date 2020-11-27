@@ -11,6 +11,7 @@ import com.yaphets.utils.GameResourceMgr;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -23,12 +24,12 @@ public class TankFactory {
     /**
      * 玩家列表
      */
-    private List<Tank> tankPlayers = new ArrayList<>();
+    private List<Tank> tankPlayers = new LinkedList<>();
 
     /**
      * 敌人列表
      */
-    private List<Tank> tankEnemys = new ArrayList<>();
+    private List<Tank> tankEnemys = new LinkedList<>();
 
     /**
      * 最大玩家数量

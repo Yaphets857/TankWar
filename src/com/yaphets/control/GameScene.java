@@ -2,12 +2,14 @@ package com.yaphets.control;
 
 import com.yaphets.enums.MoveDir;
 import com.yaphets.factory.TankFactory;
+import com.yaphets.model.Bullet;
 import com.yaphets.model.Tank;
 import com.yaphets.utils.GamePropertiesMgr;
 import com.yaphets.view.GameView;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -62,8 +64,14 @@ public class GameScene {
     }
 
     private void paintEnemys(Graphics g) {
-        for (Tank t : TankFactory.getInstance().getEnemys()) {
+        List<Tank> enemyes = TankFactory.getInstance().getEnemys();
+        for (Tank t : enemyes) {
             t.paint(g);
+            for (Bullet bullet : t.getBulletList()) {
+                if (bullet != null) {
+                    bullet.paint(g);
+                }
+            }
         }
     }
 
@@ -78,6 +86,11 @@ public class GameScene {
         g.setColor(Color.WHITE);
         g.drawString("当前玩家数量: " + TankFactory.getInstance().getPlayers().size(), 40, 40);
         g.drawString("当前敌人数量: " + TankFactory.getInstance().getEnemys().size(), 40, 60);
+        int totalBullets = 0;
+        for (Tank tank : TankFactory.getInstance().getEnemys()) {
+            totalBullets += tank.getBulletList().size();
+        }
+        g.drawString("当前子弹数量: " + totalBullets, 40, 80);
         g.setColor(color);
     }
 
