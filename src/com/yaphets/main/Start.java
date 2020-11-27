@@ -1,7 +1,6 @@
 package com.yaphets.main;
 
-import com.yaphets.utils.GameResourceMgr;
-import com.yaphets.view.MainView;
+import com.yaphets.view.GameView;
 
 /**
  * @author gszqy
@@ -9,7 +8,7 @@ import com.yaphets.view.MainView;
  */
 public class Start {
     public static void main(String[] args) {
-        MainView view = new MainView();
+        GameView view = new GameView();
 
         while (true) {
             try {

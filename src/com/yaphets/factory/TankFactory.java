@@ -38,11 +38,6 @@ public class TankFactory {
      */
     private static int playerTotal = 0;
 
-    /**
-     * 当前已存在的敌人数量
-     */
-    private static int enemysTotal = 0;
-
     private static TankFactory instance = null;
 
     private Random random = new Random();
