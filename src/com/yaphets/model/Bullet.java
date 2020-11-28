@@ -91,4 +91,12 @@ public class Bullet {
     public void setMoveDir(MoveDir moveDir) {
         this.moveDir = moveDir;
     }
+
+    @Override
+    public String toString() {
+        return "Bullet{" +
+                "gamePoint=" + gamePoint +
+                ", moveDir=" + moveDir +
+                '}';
+    }
 }

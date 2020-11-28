@@ -7,6 +7,7 @@ import com.yaphets.utils.GameResourceMgr;
 import com.yaphets.utils.ImageUtil;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
@@ -92,7 +93,7 @@ public abstract class Tank {
         checkBoundary(gamePoint);
         if (currImage != null) {
             g.drawImage(currImage, gamePoint.getX(), gamePoint.getY(), currImage.getWidth(), currImage.getHeight(), null);
-        }else {
+        } else {
             g.drawImage(lastImage, gamePoint.getX(), gamePoint.getY(), lastImage.getWidth(), lastImage.getHeight(), null);
         }
 
@@ -152,8 +153,26 @@ public abstract class Tank {
                     break;
             }
 
-            bulletList.add(new Bullet(x, y, moveDir, GameResourceMgr.bulletImage[moveDir.ordinal()], this));
+            Bullet bullet = new Bullet(x, y, moveDir, GameResourceMgr.bulletImage[moveDir.ordinal()], this);
+//            System.out.println(bullet);
+            bulletList.add(bullet);
         }
+    }
+
+    /**
+     * 处理键盘按下事件
+     *
+     * @param e 键盘事件
+     */
+    public void keyPressed(KeyEvent e) {
+    }
+
+    /**
+     * 处理键盘松开事件
+     *
+     * @param e 键盘事件
+     */
+    public void keyRelease(KeyEvent e) {
     }
 
     public List<Bullet> getBulletList() {

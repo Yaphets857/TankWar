@@ -19,13 +19,7 @@ import java.util.Random;
  */
 public class GameScene {
     private GameView view;
-    private Random random = new Random();
-
-    /**
-     * 是否被按下
-     */
-    private boolean bUp, bDown, bLeft, bRight;
-
+    private final Random random = new Random();
 
     public GameScene(GameView view) {
         this.view = view;
@@ -34,7 +28,7 @@ public class GameScene {
 
     private void init() {
         initPlayers();
-        initEnemys();
+//        initEnemys();
     }
 
     /**
@@ -76,6 +70,9 @@ public class GameScene {
     private void paintPlayers(Graphics g) {
         for (Tank t : TankFactory.getInstance().getPlayers()) {
             t.paint(g);
+            for (int i = 0; i < t.getBulletList().size(); ++i) {
+                t.getBulletList().get(i).paint(g);
+            }
         }
     }
 
@@ -88,6 +85,10 @@ public class GameScene {
         for (Tank tank : TankFactory.getInstance().getEnemys()) {
             totalBullets += tank.getBulletList().size();
         }
+        for (Tank tank : TankFactory.getInstance().getPlayers()) {
+            totalBullets += tank.getBulletList().size();
+        }
+
         g.drawString("当前子弹数量: " + totalBullets, 40, 80);
         g.setColor(color);
     }
@@ -97,82 +98,17 @@ public class GameScene {
      * 管理键盘按下事件响应处理
      */
     public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.VK_UP:
-                bUp = true;
-                break;
-            case KeyEvent.VK_DOWN:
-                bDown = true;
-                break;
-            case KeyEvent.VK_LEFT:
-                bLeft = true;
-                break;
-            case KeyEvent.VK_RIGHT:
-                bRight = true;
-                break;
-            default:
-                break;
+        for (Tank tank : TankFactory.getInstance().getPlayers()) {
+            tank.keyPressed(e);
         }
-
-        MoveDir dir = MoveDir.MOVE_STOP;
-        if (bUp) {
-            dir = MoveDir.MOVE_UP;
-        }
-        if (bDown) {
-            dir = MoveDir.MOVE_DOWN;
-        }
-        if (bLeft) {
-            dir = MoveDir.MOVE_LEFT;
-        }
-        if (bRight) {
-            dir = MoveDir.MOVE_RIGHT;
-        }
-
-        TankFactory.getInstance().getPlayers().get(0).setMoveDir(dir);
     }
 
     /**
      * 管理键盘松开事件响应处理
      */
     public void keyReleased(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.VK_UP:
-                bUp = false;
-                break;
-            case KeyEvent.VK_DOWN:
-                bDown = false;
-                break;
-            case KeyEvent.VK_LEFT:
-                bLeft = false;
-                break;
-            case KeyEvent.VK_RIGHT:
-                bRight = false;
-                break;
-            case KeyEvent.VK_SPACE:
-                TankFactory.getInstance().getPlayers().get(0).fire();
-                break;
-            default:
-                break;
+        for (Tank tank : TankFactory.getInstance().getPlayers()) {
+            tank.keyRelease(e);
         }
-
-        MoveDir dir = MoveDir.MOVE_STOP;
-
-        if (bUp) {
-            dir = MoveDir.MOVE_UP;
-        }
-        if (bDown) {
-            dir = MoveDir.MOVE_DOWN;
-        }
-        if (bLeft) {
-            dir = MoveDir.MOVE_LEFT;
-        }
-        if (bRight) {
-            dir = MoveDir.MOVE_RIGHT;
-        }
-
-        TankFactory.getInstance().getPlayers().get(0).setMoveDir(dir);
     }
-
 }
