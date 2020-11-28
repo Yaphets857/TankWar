@@ -67,10 +67,8 @@ public class GameScene {
         List<Tank> enemyes = TankFactory.getInstance().getEnemys();
         for (Tank t : enemyes) {
             t.paint(g);
-            for (Bullet bullet : t.getBulletList()) {
-                if (bullet != null) {
-                    bullet.paint(g);
-                }
+            for (int i = 0; i < t.getBulletList().size(); ++i) {
+                t.getBulletList().get(i).paint(g);
             }
         }
     }

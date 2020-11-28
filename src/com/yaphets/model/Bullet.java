@@ -29,36 +29,51 @@ public class Bullet {
 
     private Tank tank;
 
-    public Bullet(int x, int y, MoveDir moveDir, BufferedImage image) {
+    public Bullet(int x, int y, MoveDir moveDir, BufferedImage image, Tank tank) {
         gamePoint = new GamePoint<>(x, y);
         this.moveDir = moveDir;
         this.image = image;
+        this.tank = tank;
     }
 
-    public Bullet(GamePoint<Integer> gamePoint, MoveDir moveDir, BufferedImage image) {
-        this(gamePoint.getX(), gamePoint.getY(), moveDir, image);
+    public Bullet(GamePoint<Integer> gamePoint, MoveDir moveDir, BufferedImage image, Tank tank) {
+        this(gamePoint.getX(), gamePoint.getY(), moveDir, image, tank);
     }
 
     public void paint(Graphics g) {
 
-        switch (moveDir) {
-            case MOVE_UP:
-                gamePoint.setY(gamePoint.getY() - GamePropertiesMgr.BULLET_SPEED);
-                break;
-            case MOVE_DOWN:
-                gamePoint.setY(gamePoint.getY() + GamePropertiesMgr.BULLET_SPEED);
-                break;
-            case MOVE_LEFT:
-                gamePoint.setX(gamePoint.getX() - GamePropertiesMgr.BULLET_SPEED);
-                break;
-            case MOVE_RIGHT:
-                gamePoint.setX(gamePoint.getX() + GamePropertiesMgr.BULLET_SPEED);
-                break;
-            default:
-                break;
+        if (checkBoundary()) {
+            switch (moveDir) {
+                case MOVE_UP:
+                    gamePoint.setY(gamePoint.getY() - GamePropertiesMgr.BULLET_SPEED);
+                    break;
+                case MOVE_DOWN:
+                    gamePoint.setY(gamePoint.getY() + GamePropertiesMgr.BULLET_SPEED);
+                    break;
+                case MOVE_LEFT:
+                    gamePoint.setX(gamePoint.getX() - GamePropertiesMgr.BULLET_SPEED);
+                    break;
+                case MOVE_RIGHT:
+                    gamePoint.setX(gamePoint.getX() + GamePropertiesMgr.BULLET_SPEED);
+                    break;
+                default:
+                    break;
+            }
+            g.drawImage(image, gamePoint.getX(), gamePoint.getY(), image.getWidth(), image.getHeight(), null);
+        } else {
+            tank.getBulletList().remove(this);
+        }
+    }
+
+    private boolean checkBoundary() {
+        int x = gamePoint.getX();
+        int y = gamePoint.getY();
+        if (x < 0 || x > GamePropertiesMgr.GAME_WIDTH ||
+                y < 0 || y > GamePropertiesMgr.GAME_HEIGHT) {
+            return false;
         }
 
-        g.drawImage(image, gamePoint.getX(), gamePoint.getY(), image.getWidth(), image.getHeight(), null);
+        return true;
     }
 
     public GamePoint<Integer> getGamePoint() {

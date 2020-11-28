@@ -58,7 +58,7 @@ public class EnemyTank extends Tank {
                 default:
                     break;
             }
-            bulletList.add(new Bullet(x, y, dir, GameResourceMgr.bulletImage[dir.ordinal()]));
+            bulletList.add(new Bullet(x, y, dir, GameResourceMgr.bulletImage[dir.ordinal()], this));
         }
     }
 }
