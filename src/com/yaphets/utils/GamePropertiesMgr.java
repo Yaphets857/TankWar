@@ -36,6 +36,11 @@ public class GamePropertiesMgr {
      */
     public static int INIT_ENEMY_CNT;
 
+    /**
+     * 开火策略
+     */
+    public static String PLAYER_FIRE_STRATEGY, ENEMY_FIRE_STRATEGY;
+
     static {
         Properties properties = new Properties();
         ClassLoader classLoader = GameResourceMgr.class.getClassLoader();
@@ -48,6 +53,9 @@ public class GamePropertiesMgr {
             ENEMY_SPEED = Integer.parseInt(properties.getProperty("enemySpeed", "5"));
             BULLET_SPEED = Integer.parseInt(properties.getProperty("bulletSpeed", "10"));
             INIT_ENEMY_CNT = Integer.parseInt(properties.getProperty("initEnemyCnt", "10"));
+
+            PLAYER_FIRE_STRATEGY = properties.getProperty("playerFireStrategy", "com.yaphets.strategy.PlayerFireStrategy");
+            ENEMY_FIRE_STRATEGY = properties.getProperty("enemyFireStrategy", "com.yaphets.strategy.EnemyFireStrategy");
 
         } catch (IOException e) {
             e.printStackTrace();

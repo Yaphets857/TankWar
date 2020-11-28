@@ -3,6 +3,7 @@ package com.yaphets.model;
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
 import com.yaphets.factory.TankFactory;
+import com.yaphets.strategy.FireStrategy;
 import com.yaphets.utils.GamePropertiesMgr;
 import com.yaphets.utils.GameResourceMgr;
 import com.yaphets.utils.ImageUtil;
@@ -54,6 +55,11 @@ public abstract class Tank {
     private final int barrelLength = 0;
 
     private boolean isLiving = true;
+
+    /**
+     * fire策略引用
+     */
+    protected FireStrategy fireStrategy;
 
     public Tank(int x, int y, MoveDir moveDir, BufferedImage image) {
         gamePoint = new GamePoint<>(x, y);
@@ -136,33 +142,8 @@ public abstract class Tank {
      * fire：用于发射子弹
      */
     public void fire() {
-        if (moveDir != MoveDir.MOVE_STOP) {
-            int x = 0, y = 0;
-            BufferedImage bulletImage = GameResourceMgr.bufferedImages[moveDir.ordinal()];
-            switch (moveDir) {
-                case MOVE_UP:
-                    x = getGamePoint().getX() + imageUp.getWidth() / 2 - bulletImage.getWidth() / 2;
-                    y = getGamePoint().getY() - barrelLength;
-                    break;
-                case MOVE_RIGHT:
-                    x = getGamePoint().getX() + imageUp.getWidth() + barrelLength;
-                    y = getGamePoint().getY() + imageUp.getHeight() / 2 - bulletImage.getHeight() / 2;
-                    break;
-                case MOVE_DOWN:
-                    x = getGamePoint().getX() + imageRight.getWidth() / 2 - bulletImage.getWidth() / 2;
-                    y = getGamePoint().getY() + barrelLength;
-                    break;
-                case MOVE_LEFT:
-                    x = getGamePoint().getX() - barrelLength;
-                    y = getGamePoint().getY() + imageUp.getHeight() / 2 - bulletImage.getHeight() / 2;
-                    break;
-                default:
-                    break;
-            }
-
-            Bullet bullet = new Bullet(x, y, moveDir, GameResourceMgr.bufferedImages[moveDir.ordinal()], this);
-//            System.out.println(bullet);
-            bulletList.add(bullet);
+        if (fireStrategy != null && moveDir != MoveDir.MOVE_STOP) {
+            fireStrategy.fire(this);
         }
     }
 

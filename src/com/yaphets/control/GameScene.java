@@ -88,13 +88,14 @@ public class GameScene {
         List<Tank> enemys = TankFactory.getInstance().getEnemys();
         List<Tank> players = TankFactory.getInstance().getPlayers();
 
-        label:for (Tank player : players) {
-            for (Bullet bullet : player.getBulletList()) {
-                for (Tank ememy : enemys) {
-                    if (bullet.getRectange().intersects(ememy.getRectangle())) {
-                        bullet.die();
-                        ememy.die();
-                        break;
+        for (int i = 0; i < players.size(); ++i) {
+            List<Bullet> bullets = players.get(i).getBulletList();
+            for (int j = 0; j < bullets.size(); ++j) {
+                for (int k = 0; k < enemys.size(); ++k) {
+                    if (bullets.get(j).getRectange().intersects(enemys.get(k).getRectangle())) {
+                        bullets.get(j).die();
+                        enemys.get(k).die();
+                        return;
                     }
                 }
             }

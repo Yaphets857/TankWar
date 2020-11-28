@@ -3,6 +3,8 @@ package com.yaphets.model;
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
 import com.yaphets.factory.TankFactory;
+import com.yaphets.strategy.FireStrategy;
+import com.yaphets.utils.GamePropertiesMgr;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -20,10 +22,20 @@ public class PlayerTank extends Tank {
 
     public PlayerTank(int x, int y, MoveDir moveDir, BufferedImage image) {
         super(x, y, moveDir, image);
+        try {
+            fireStrategy = (FireStrategy) Class.forName(GamePropertiesMgr.PLAYER_FIRE_STRATEGY).getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public PlayerTank(GamePoint<Integer> gamePoint, MoveDir moveDir, BufferedImage image) {
         super(gamePoint, moveDir, image);
+        try {
+            fireStrategy = (FireStrategy) Class.forName(GamePropertiesMgr.PLAYER_FIRE_STRATEGY).getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

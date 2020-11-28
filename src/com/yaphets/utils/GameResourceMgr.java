@@ -22,7 +22,7 @@ public class GameResourceMgr {
     /**
      * 子弹相关图片
      */
-    public static BufferedImage[] bufferedImages;
+    public static BufferedImage[] bulletImages;
 
     /**
      * 爆炸相关图片
@@ -40,11 +40,11 @@ public class GameResourceMgr {
 
             /*-1的原因是不包括停止*/
             int len = MoveDir.values().length - 1;
-            bufferedImages = new BufferedImage[MoveDir.values().length - 1];
+            bulletImages = new BufferedImage[MoveDir.values().length - 1];
             BufferedImage image = ImageIO.read(classLoader.getResourceAsStream("images/bulletU.png"));
             //顺时针方向依次产生MoveDir枚举类中定义的方向图片
             for (int i = 0; i < len; ++i) {
-                bufferedImages[i] = ImageUtil.rotateImage(image, 90 * i);
+                bulletImages[i] = ImageUtil.rotateImage(image, 90 * i);
             }
 
             explodeImages = new BufferedImage[16];
