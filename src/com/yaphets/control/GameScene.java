@@ -150,6 +150,9 @@ public class GameScene {
             case KeyEvent.VK_RIGHT:
                 bRight = false;
                 break;
+            case KeyEvent.VK_SPACE:
+                TankFactory.getInstance().getPlayers().get(0).fire();
+                break;
             default:
                 break;
         }

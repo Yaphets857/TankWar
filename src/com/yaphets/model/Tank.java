@@ -46,6 +46,11 @@ public abstract class Tank {
      */
     protected List<Bullet> bulletList = new LinkedList<>();
 
+    /**
+     * 炮筒长度
+     */
+    private final int barrelLength = 0;
+
     public Tank(int x, int y, MoveDir moveDir, BufferedImage image) {
         gamePoint = new GamePoint<>(x, y);
         this.moveDir = moveDir;
@@ -117,6 +122,38 @@ public abstract class Tank {
         y = (y + imageHeight >= GamePropertiesMgr.GAME_HEIGHT) ? (GamePropertiesMgr.GAME_HEIGHT - imageHeight) : y;
         gamePoint.setX(x);
         gamePoint.setY(y);
+    }
+
+    /**
+     * fire：用于发射子弹
+     */
+    public void fire() {
+        if (moveDir != MoveDir.MOVE_STOP) {
+            int x = 0, y = 0;
+            BufferedImage bulletImage = GameResourceMgr.bulletImage[moveDir.ordinal()];
+            switch (moveDir) {
+                case MOVE_UP:
+                    x = getGamePoint().getX() + imageUp.getWidth() / 2 - bulletImage.getWidth() / 2;
+                    y = getGamePoint().getY() - barrelLength;
+                    break;
+                case MOVE_RIGHT:
+                    x = getGamePoint().getX() + imageUp.getWidth() + barrelLength;
+                    y = getGamePoint().getY() + imageUp.getHeight() / 2 - bulletImage.getHeight() / 2;
+                    break;
+                case MOVE_DOWN:
+                    x = getGamePoint().getX() + imageRight.getWidth() / 2 - bulletImage.getWidth() / 2;
+                    y = getGamePoint().getY() + barrelLength;
+                    break;
+                case MOVE_LEFT:
+                    x = getGamePoint().getX() - barrelLength;
+                    y = getGamePoint().getY() + imageUp.getHeight() / 2 - bulletImage.getHeight() / 2;
+                    break;
+                default:
+                    break;
+            }
+
+            bulletList.add(new Bullet(x, y, moveDir, GameResourceMgr.bulletImage[moveDir.ordinal()], this));
+        }
     }
 
     public List<Bullet> getBulletList() {
