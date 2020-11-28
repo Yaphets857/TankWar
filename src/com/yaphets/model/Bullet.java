@@ -3,6 +3,7 @@ package com.yaphets.model;
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
 import com.yaphets.utils.GamePropertiesMgr;
+import com.yaphets.utils.GameResourceMgr;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -29,15 +30,18 @@ public class Bullet {
 
     private final Tank tank;
 
-    public Bullet(int x, int y, MoveDir moveDir, BufferedImage image, Tank tank) {
+    public Bullet(int x, int y, MoveDir dir, Tank tank) {
         gamePoint = new GamePoint<>(x, y);
-        this.moveDir = moveDir;
-        this.image = image;
         this.tank = tank;
+        moveDir = dir;
+        if (tank != null) {
+            image = GameResourceMgr.bulletImages[moveDir.ordinal()];
+            tank.getBulletList().add(this);
+        }
     }
 
-    public Bullet(GamePoint<Integer> gamePoint, MoveDir moveDir, BufferedImage image, Tank tank) {
-        this(gamePoint.getX(), gamePoint.getY(), moveDir, image, tank);
+    public Bullet(GamePoint<Integer> gamePoint, MoveDir dir, Tank tank) {
+        this(gamePoint.getX(), gamePoint.getY(), dir, tank);
     }
 
     public void paint(Graphics g) {
