@@ -27,7 +27,7 @@ public class Bullet {
      */
     protected BufferedImage image;
 
-    private Tank tank;
+    private final Tank tank;
 
     public Bullet(int x, int y, MoveDir moveDir, BufferedImage image, Tank tank) {
         gamePoint = new GamePoint<>(x, y);
@@ -92,11 +92,19 @@ public class Bullet {
         this.moveDir = moveDir;
     }
 
+    public Rectangle getRectange() {
+        return new Rectangle(gamePoint.getX(), gamePoint.getY(), image.getWidth(), image.getHeight());
+    }
+
     @Override
     public String toString() {
         return "Bullet{" +
                 "gamePoint=" + gamePoint +
                 ", moveDir=" + moveDir +
                 '}';
+    }
+
+    public void die() {
+        tank.getBulletList().remove(this);
     }
 }

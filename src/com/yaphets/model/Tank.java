@@ -2,6 +2,7 @@ package com.yaphets.model;
 
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
+import com.yaphets.factory.TankFactory;
 import com.yaphets.utils.GamePropertiesMgr;
 import com.yaphets.utils.GameResourceMgr;
 import com.yaphets.utils.ImageUtil;
@@ -52,6 +53,8 @@ public abstract class Tank {
      */
     private final int barrelLength = 0;
 
+    private boolean isLiving = true;
+
     public Tank(int x, int y, MoveDir moveDir, BufferedImage image) {
         gamePoint = new GamePoint<>(x, y);
         this.moveDir = moveDir;
@@ -101,7 +104,11 @@ public abstract class Tank {
     }
 
     public void paint(Graphics g) {
-        draw(g);
+        if (!isLiving) {
+            beforeDieToDo();
+        } else {
+            draw(g);
+        }
     }
 
     /**
@@ -131,7 +138,7 @@ public abstract class Tank {
     public void fire() {
         if (moveDir != MoveDir.MOVE_STOP) {
             int x = 0, y = 0;
-            BufferedImage bulletImage = GameResourceMgr.bulletImage[moveDir.ordinal()];
+            BufferedImage bulletImage = GameResourceMgr.bufferedImages[moveDir.ordinal()];
             switch (moveDir) {
                 case MOVE_UP:
                     x = getGamePoint().getX() + imageUp.getWidth() / 2 - bulletImage.getWidth() / 2;
@@ -153,7 +160,7 @@ public abstract class Tank {
                     break;
             }
 
-            Bullet bullet = new Bullet(x, y, moveDir, GameResourceMgr.bulletImage[moveDir.ordinal()], this);
+            Bullet bullet = new Bullet(x, y, moveDir, GameResourceMgr.bufferedImages[moveDir.ordinal()], this);
 //            System.out.println(bullet);
             bulletList.add(bullet);
         }
@@ -202,4 +209,15 @@ public abstract class Tank {
     public void setImageUp(BufferedImage imageUp) {
         this.imageUp = imageUp;
     }
+
+    public Rectangle getRectangle() {
+        return new Rectangle(gamePoint.getX(), gamePoint.getY(), currImage.getWidth(), currImage.getHeight());
+    }
+
+    public void die() {
+        TankFactory.getInstance().createExplode(gamePoint.getX(), gamePoint.getY());
+        isLiving = false;
+    }
+
+    protected abstract void beforeDieToDo();
 }

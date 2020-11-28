@@ -1,6 +1,5 @@
 package com.yaphets.control;
 
-import com.yaphets.enums.MoveDir;
 import com.yaphets.factory.TankFactory;
 import com.yaphets.model.Bullet;
 import com.yaphets.model.Tank;
@@ -28,7 +27,7 @@ public class GameScene {
 
     private void init() {
         initPlayers();
-//        initEnemys();
+        initEnemys();
     }
 
     /**
@@ -52,26 +51,52 @@ public class GameScene {
      * 管理图元绘制
      */
     public void paint(Graphics g) {
-        paintPlayers(g);
-        paintEnemys(g);
+        paintTanks(TankFactory.getInstance().getPlayers(), g);
+        paintTanks(TankFactory.getInstance().getEnemys(), g);
+
+        paintExplodes(g);
         paintGameMessage(g);
+
+        collideDetect();
     }
 
-    private void paintEnemys(Graphics g) {
-        List<Tank> enemyes = TankFactory.getInstance().getEnemys();
-        for (Tank t : enemyes) {
+    /**
+     * 绘制坦克
+     * @param tanks 具体的坦克列表(玩家or敌人)
+     * @param g 画笔
+     */
+    private void paintTanks(List<Tank> tanks, Graphics g) {
+        for (int i = 0; i < tanks.size(); ++i) {
+            Tank t = tanks.get(i);
             t.paint(g);
-            for (int i = 0; i < t.getBulletList().size(); ++i) {
-                t.getBulletList().get(i).paint(g);
+            for (int j = 0; j < t.getBulletList().size(); ++j) {
+                t.getBulletList().get(j).paint(g);
             }
         }
     }
 
-    private void paintPlayers(Graphics g) {
-        for (Tank t : TankFactory.getInstance().getPlayers()) {
-            t.paint(g);
-            for (int i = 0; i < t.getBulletList().size(); ++i) {
-                t.getBulletList().get(i).paint(g);
+    private void paintExplodes(Graphics g) {
+        for (int i = 0; i < TankFactory.getInstance().getExplodes().size(); ++i) {
+            TankFactory.getInstance().getExplodes().get(i).paint(g);
+        }
+    }
+
+    /**
+     * 碰撞检测
+     */
+    private void collideDetect() {
+        List<Tank> enemys = TankFactory.getInstance().getEnemys();
+        List<Tank> players = TankFactory.getInstance().getPlayers();
+
+        label:for (Tank player : players) {
+            for (Bullet bullet : player.getBulletList()) {
+                for (Tank ememy : enemys) {
+                    if (bullet.getRectange().intersects(ememy.getRectangle())) {
+                        bullet.die();
+                        ememy.die();
+                        break;
+                    }
+                }
             }
         }
     }

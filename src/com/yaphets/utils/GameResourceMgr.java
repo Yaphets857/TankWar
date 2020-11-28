@@ -11,7 +11,7 @@ import java.io.IOException;
  * @date 17:42 2020/11/26
  */
 public class GameResourceMgr {
-    /***
+    /**
      * 坦克相关图片
      */
     public static BufferedImage player1PImageUp;
@@ -19,10 +19,15 @@ public class GameResourceMgr {
     public static BufferedImage normalEnemyImageUp;
     public static BufferedImage strongEnemyImageUp;
 
-    /***
+    /**
      * 子弹相关图片
      */
-    public static BufferedImage[] bulletImage;
+    public static BufferedImage[] bufferedImages;
+
+    /**
+     * 爆炸相关图片
+     */
+    public static BufferedImage[] explodeImages;
 
     static {
         ClassLoader classLoader = GameResourceMgr.class.getClassLoader();
@@ -35,11 +40,16 @@ public class GameResourceMgr {
 
             /*-1的原因是不包括停止*/
             int len = MoveDir.values().length - 1;
-            bulletImage = new BufferedImage[MoveDir.values().length - 1];
+            bufferedImages = new BufferedImage[MoveDir.values().length - 1];
             BufferedImage image = ImageIO.read(classLoader.getResourceAsStream("images/bulletU.png"));
             //顺时针方向依次产生MoveDir枚举类中定义的方向图片
             for (int i = 0; i < len; ++i) {
-                bulletImage[i] = ImageUtil.rotateImage(image, 90 * i);
+                bufferedImages[i] = ImageUtil.rotateImage(image, 90 * i);
+            }
+
+            explodeImages = new BufferedImage[16];
+            for (int i = 0; i < explodeImages.length; ++i) {
+                explodeImages[i] = ImageIO.read(classLoader.getResourceAsStream("images/e" + (i+1) + ".gif"));
             }
 
         } catch (IOException e) {

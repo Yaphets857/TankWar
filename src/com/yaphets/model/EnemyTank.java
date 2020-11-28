@@ -2,7 +2,7 @@ package com.yaphets.model;
 
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
-import com.yaphets.utils.GameResourceMgr;
+import com.yaphets.factory.TankFactory;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -37,5 +37,10 @@ public class EnemyTank extends Tank {
             timeCnt = 0;
             fire();
         }
+    }
+
+    @Override
+    protected void beforeDieToDo() {
+        TankFactory.getInstance().getEnemys().remove(this);
     }
 }

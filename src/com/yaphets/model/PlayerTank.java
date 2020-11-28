@@ -3,7 +3,6 @@ package com.yaphets.model;
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
 import com.yaphets.factory.TankFactory;
-import com.yaphets.utils.GamePropertiesMgr;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -107,5 +106,10 @@ public class PlayerTank extends Tank {
         }
 
         setMoveDir(dir);
+    }
+
+    @Override
+    protected void beforeDieToDo() {
+        TankFactory.getInstance().getPlayers().remove(this);
     }
 }
