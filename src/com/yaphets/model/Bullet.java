@@ -12,12 +12,7 @@ import java.awt.image.BufferedImage;
  * @author gszqy
  * @date 20:18 2020/11/27
  */
-public class Bullet {
-    /**
-     * 子弹坐标
-     */
-    protected GamePoint<Integer> gamePoint;
-
+public class Bullet extends GameObject{
     /**
      * 子弹移动方向
      */
@@ -28,22 +23,18 @@ public class Bullet {
      */
     protected BufferedImage image;
 
-    private final Tank tank;
-
-    public Bullet(int x, int y, MoveDir dir, Tank tank) {
-        gamePoint = new GamePoint<>(x, y);
-        this.tank = tank;
+    public Bullet(int x, int y, MoveDir dir) {
+        super(x, y);
         moveDir = dir;
-        if (tank != null) {
-            image = GameResourceMgr.bulletImages[moveDir.ordinal()];
-            tank.getBulletList().add(this);
-        }
+        image = GameResourceMgr.bulletImages[moveDir.ordinal()];
+        GameModelMgr.getInstance().add(this);
     }
 
-    public Bullet(GamePoint<Integer> gamePoint, MoveDir dir, Tank tank) {
-        this(gamePoint.getX(), gamePoint.getY(), dir, tank);
+    public Bullet(GamePoint<Integer> gamePoint, MoveDir dir) {
+        this(gamePoint.getX(), gamePoint.getY(), dir);
     }
 
+    @Override
     public void paint(Graphics g) {
 
         if (checkBoundary()) {
@@ -65,7 +56,7 @@ public class Bullet {
             }
             g.drawImage(image, gamePoint.getX(), gamePoint.getY(), image.getWidth(), image.getHeight(), null);
         } else {
-            tank.getBulletList().remove(this);
+            GameModelMgr.getInstance().remove(this);
         }
     }
 
@@ -78,14 +69,6 @@ public class Bullet {
         }
 
         return true;
-    }
-
-    public GamePoint<Integer> getGamePoint() {
-        return gamePoint;
-    }
-
-    public void setGamePoint(GamePoint<Integer> gamePoint) {
-        this.gamePoint = gamePoint;
     }
 
     public MoveDir getMoveDir() {
@@ -109,6 +92,6 @@ public class Bullet {
     }
 
     public void die() {
-        tank.getBulletList().remove(this);
+        GameModelMgr.getInstance().remove(this);
     }
 }

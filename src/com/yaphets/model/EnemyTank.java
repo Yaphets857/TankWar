@@ -2,14 +2,11 @@ package com.yaphets.model;
 
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
-import com.yaphets.factory.TankFactory;
 import com.yaphets.strategy.FireStrategy;
 import com.yaphets.utils.GamePropertiesMgr;
-import com.yaphets.utils.GameResourceMgr;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 /**
@@ -55,6 +52,6 @@ public class EnemyTank extends Tank {
 
     @Override
     protected void beforeDieToDo() {
-        TankFactory.getInstance().getEnemys().remove(this);
+        GameModelMgr.instance.remove(this);
     }
 }

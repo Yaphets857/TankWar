@@ -3,17 +3,11 @@ package com.yaphets.factory;
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
 import com.yaphets.exception.GameException;
-import com.yaphets.model.EnemyTank;
-import com.yaphets.model.Explode;
-import com.yaphets.model.PlayerTank;
-import com.yaphets.model.Tank;
+import com.yaphets.model.*;
 import com.yaphets.utils.GamePropertiesMgr;
 import com.yaphets.utils.GameResourceMgr;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -21,22 +15,7 @@ import java.util.Random;
  * @date 16:44 2020/11/26
  * 坦克工厂: 生产玩家坦克及敌人坦克
  */
-public class TankFactory {
-    /**
-     * 玩家列表
-     */
-    private List<Tank> tankPlayers = new LinkedList<>();
-
-    /**
-     * 敌人列表
-     */
-    private List<Tank> tankEnemys = new LinkedList<>();
-
-    /**
-     * 爆炸列表
-     */
-    private List<Explode> explodes = new LinkedList<>();
-
+public class GameObjectFactory {
     /**
      * 最大玩家数量
      */
@@ -47,19 +26,19 @@ public class TankFactory {
      */
     private static int playerTotal = 0;
 
-    private static TankFactory instance = null;
+    private static GameObjectFactory instance = null;
 
     private Random random = new Random();
 
-    private TankFactory() {
+    private GameObjectFactory() {
 
     }
 
-    public static TankFactory getInstance() {
+    public static GameObjectFactory getInstance() {
         if (instance == null) {
-            synchronized (TankFactory.class) {
+            synchronized (GameObjectFactory.class) {
                 if (instance == null) {
-                    instance = new TankFactory();
+                    instance = new GameObjectFactory();
                 }
             }
         }
@@ -70,7 +49,7 @@ public class TankFactory {
      * x: 玩家初始x坐标
      * y: 玩家初始y坐标
      */
-    public void createPlayers(int x, int y) {
+    public Tank createPlayers(int x, int y) {
         if (playerTotal >= MAX_PLAYERS) {
             throw new GameException("创建玩家数量失败，最大玩家数量" + MAX_PLAYERS + ", 当前已存在玩家数量" + playerTotal);
         }
@@ -80,12 +59,14 @@ public class TankFactory {
         checkBoundary(gamePoint);
 
         if (playerTotal == 0) {
-            tankPlayers.add(new PlayerTank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player1PImageUp));
+            playerTotal++;
+            return new PlayerTank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player1PImageUp);
         }else if (playerTotal == 1){
-            tankPlayers.add(new PlayerTank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player2PImageUp));
+            playerTotal++;
+            return new PlayerTank(gamePoint, MoveDir.MOVE_STOP, GameResourceMgr.player2PImageUp);
         }
 
-        playerTotal++;
+        return null;
     }
 
     private void checkBoundary(GamePoint<Integer> gamePoint) {
@@ -103,7 +84,7 @@ public class TankFactory {
      * x: 敌人初始x坐标
      * y: 敌人初始y坐标
      */
-    public void createEnemys(int x, int y) {
+    public Tank createEnemys(int x, int y) {
 
         BufferedImage image = GameResourceMgr.normalEnemyImageUp;
 
@@ -115,28 +96,11 @@ public class TankFactory {
         if (random.nextInt(100) > 90) {
             image = GameResourceMgr.strongEnemyImageUp;
         }
-        tankEnemys.add(new EnemyTank(gamePoint, MoveDir.MOVE_STOP, image));
+
+        return new EnemyTank(gamePoint, MoveDir.MOVE_STOP, image);
     }
 
-    public void createExplode(int x, int y) {
-        explodes.add(new Explode(new GamePoint(x, y)));
-    }
-
-    public List<Explode> getExplodes() {
-        return explodes;
-    }
-
-    /**
-     * 获取玩家列表
-     */
-    public List<Tank> getPlayers() {
-        return tankPlayers;
-    }
-
-    /**
-     * 获取敌人列表
-     */
-    public List<Tank> getEnemys() {
-        return tankEnemys;
+    public Explode createExplode(int x, int y) {
+        return new Explode(x, y);
     }
 }

@@ -23,7 +23,7 @@ public class EnemyFireStrategy implements FireStrategy {
 
             x = x + tankWidth / 2 - bulletWidth / 2;
             y = y + tankHeight / 2 - bulletHeight / 2;
-            new Bullet(new GamePoint<Integer>(x, y), tank.getMoveDir(), tank);
+            new Bullet(new GamePoint<Integer>(x, y), tank.getMoveDir());
         }
     }
 }

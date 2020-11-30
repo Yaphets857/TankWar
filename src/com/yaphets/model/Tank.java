@@ -2,10 +2,9 @@ package com.yaphets.model;
 
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
-import com.yaphets.factory.TankFactory;
+import com.yaphets.factory.GameObjectFactory;
 import com.yaphets.strategy.FireStrategy;
 import com.yaphets.utils.GamePropertiesMgr;
-import com.yaphets.utils.GameResourceMgr;
 import com.yaphets.utils.ImageUtil;
 
 import java.awt.*;
@@ -18,12 +17,7 @@ import java.util.List;
  * @author gszqy
  * @date 15:54 2020/11/26
  */
-public abstract class Tank {
-    /**
-     * 坦克坐标
-     */
-    protected GamePoint<Integer> gamePoint;
-
+public abstract class Tank extends GameObject{
     /**
      * 坦克移动方向
      */
@@ -45,11 +39,6 @@ public abstract class Tank {
     private BufferedImage lastImage;
 
     /**
-     * 子弹集合
-     */
-    protected List<Bullet> bulletList = new LinkedList<>();
-
-    /**
      * 炮筒长度
      */
     private final int barrelLength = 0;
@@ -62,7 +51,7 @@ public abstract class Tank {
     protected FireStrategy fireStrategy;
 
     public Tank(int x, int y, MoveDir moveDir, BufferedImage image) {
-        gamePoint = new GamePoint<>(x, y);
+        super(x, y);
         this.moveDir = moveDir;
         this.imageUp = image;
 
@@ -109,6 +98,7 @@ public abstract class Tank {
         move(g);
     }
 
+    @Override
     public void paint(Graphics g) {
         if (!isLiving) {
             beforeDieToDo();
@@ -163,18 +153,6 @@ public abstract class Tank {
     public void keyRelease(KeyEvent e) {
     }
 
-    public List<Bullet> getBulletList() {
-        return bulletList;
-    }
-
-    public GamePoint<Integer> getGamePoint() {
-        return gamePoint;
-    }
-
-    public void setGamePoint(GamePoint<Integer> gamePoint) {
-        this.gamePoint = gamePoint;
-    }
-
     public MoveDir getMoveDir() {
         return moveDir;
     }
@@ -196,7 +174,7 @@ public abstract class Tank {
     }
 
     public void die() {
-        TankFactory.getInstance().createExplode(gamePoint.getX(), gamePoint.getY());
+        GameObjectFactory.getInstance().createExplode(gamePoint.getX(), gamePoint.getY());
         isLiving = false;
     }
 

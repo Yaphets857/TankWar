@@ -9,7 +9,7 @@ import com.yaphets.model.Tank;
 public interface FireStrategy {
     /**
      *
-     * @param tank object
+     * @param tank
      */
-    public abstract void fire(Tank tank);
+    void fire(Tank tank);
 }

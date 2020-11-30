@@ -1,7 +1,6 @@
 package com.yaphets.model;
 
 import com.yaphets.domain.GamePoint;
-import com.yaphets.factory.TankFactory;
 import com.yaphets.utils.GameResourceMgr;
 
 import java.awt.*;
@@ -10,34 +9,23 @@ import java.awt.*;
  * @author gszqy
  * @date 17:37 2020/11/28
  */
-public class Explode {
-    /**
-     * 爆炸坐标
-     */
-    private GamePoint<Integer> gamePoint;
-
+public class Explode extends GameObject{
     /**
      * 播放计数器
      */
     private int count;
 
-    public Explode(GamePoint<Integer> gamePoint) {
-        this.gamePoint = gamePoint;
+    public Explode(int x, int y) {
+        super(x, y);
+        GameModelMgr.getInstance().add(this);
     }
 
+    @Override
     public void paint(Graphics g) {
         g.drawImage(GameResourceMgr.explodeImages[count++], gamePoint.getX(), gamePoint.getY(), null);
         if (count >= GameResourceMgr.explodeImages.length) {
-            TankFactory.getInstance().getExplodes().remove(this);
+            GameModelMgr.getInstance().remove(this);
         }
-    }
-
-    public GamePoint<Integer> getGamePoint() {
-        return gamePoint;
-    }
-
-    public void setGamePoint(GamePoint<Integer> gamePoint) {
-        this.gamePoint = gamePoint;
     }
 
     @Override

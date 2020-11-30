@@ -2,7 +2,6 @@ package com.yaphets.model;
 
 import com.yaphets.domain.GamePoint;
 import com.yaphets.enums.MoveDir;
-import com.yaphets.factory.TankFactory;
 import com.yaphets.strategy.FireStrategy;
 import com.yaphets.utils.GamePropertiesMgr;
 
@@ -122,6 +121,6 @@ public class PlayerTank extends Tank {
 
     @Override
     protected void beforeDieToDo() {
-        TankFactory.getInstance().getPlayers().remove(this);
+        GameModelMgr.getInstance().remove(this);
     }
 }
