@@ -1,6 +1,7 @@
 package com.yaphets.strategy;
 
 import com.yaphets.domain.GamePoint;
+import com.yaphets.enums.Camp;
 import com.yaphets.model.Bullet;
 import com.yaphets.model.Tank;
 import com.yaphets.utils.GameResourceMgr;
@@ -23,7 +24,7 @@ public class EnemyFireStrategy implements FireStrategy {
 
             x = x + tankWidth / 2 - bulletWidth / 2;
             y = y + tankHeight / 2 - bulletHeight / 2;
-            new Bullet(new GamePoint<Integer>(x, y), tank.getMoveDir());
+            new Bullet(new GamePoint<Integer>(x, y), tank.getMoveDir(), Camp.ENEMY);
         }
     }
 }

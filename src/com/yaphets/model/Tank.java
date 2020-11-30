@@ -101,7 +101,8 @@ public abstract class Tank extends GameObject{
     @Override
     public void paint(Graphics g) {
         if (!isLiving) {
-            beforeDieToDo();
+            GameObjectFactory.getInstance().createExplode(gamePoint.getX(), gamePoint.getY());
+            GameModelMgr.getInstance().remove(this);
         } else {
             draw(g);
         }
@@ -135,32 +136,6 @@ public abstract class Tank extends GameObject{
         if (fireStrategy != null && moveDir != MoveDir.MOVE_STOP) {
             fireStrategy.fire(this);
         }
-//        if (moveDir != MoveDir.MOVE_STOP) {
-//            int x = 0, y = 0;
-//            BufferedImage bulletImage = GameResourceMgr.bulletImages[moveDir.ordinal()];
-//            switch (moveDir) {
-//                case MOVE_UP:
-//                    x = getGamePoint().getX() + imageUp.getWidth() / 2 - bulletImage.getWidth() / 2;
-//                    y = getGamePoint().getY() - barrelLength;
-//                    break;
-//                case MOVE_RIGHT:
-//                    x = getGamePoint().getX() + imageUp.getWidth() + barrelLength;
-//                    y = getGamePoint().getY() + imageUp.getHeight() / 2 - bulletImage.getHeight() / 2;
-//                    break;
-//                case MOVE_DOWN:
-//                    x = getGamePoint().getX() + imageRight.getWidth() / 2 - bulletImage.getWidth() / 2;
-//                    y = getGamePoint().getY() + barrelLength;
-//                    break;
-//                case MOVE_LEFT:
-//                    x = getGamePoint().getX() - barrelLength;
-//                    y = getGamePoint().getY() + imageUp.getHeight() / 2 - bulletImage.getHeight() / 2;
-//                    break;
-//                default:
-//                    break;
-//            }
-//
-//            Bullet bullet = new Bullet(x, y, this);
-//        }
     }
 
     /**
@@ -200,9 +175,6 @@ public abstract class Tank extends GameObject{
     }
 
     public void die() {
-        GameObjectFactory.getInstance().createExplode(gamePoint.getX(), gamePoint.getY());
         isLiving = false;
     }
-
-    protected abstract void beforeDieToDo();
 }

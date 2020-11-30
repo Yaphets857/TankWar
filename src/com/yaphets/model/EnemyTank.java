@@ -49,9 +49,4 @@ public class EnemyTank extends Tank {
             fire();
         }
     }
-
-    @Override
-    protected void beforeDieToDo() {
-        GameModelMgr.instance.remove(this);
-    }
 }

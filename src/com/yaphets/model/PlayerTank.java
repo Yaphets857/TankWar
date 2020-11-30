@@ -118,9 +118,4 @@ public class PlayerTank extends Tank {
 
         setMoveDir(dir);
     }
-
-    @Override
-    protected void beforeDieToDo() {
-        GameModelMgr.getInstance().remove(this);
-    }
 }

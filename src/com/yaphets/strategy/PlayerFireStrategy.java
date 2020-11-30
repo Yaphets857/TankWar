@@ -1,5 +1,6 @@
 package com.yaphets.strategy;
 
+import com.yaphets.enums.Camp;
 import com.yaphets.enums.MoveDir;
 import com.yaphets.model.Bullet;
 import com.yaphets.model.GameModelMgr;
@@ -26,7 +27,7 @@ public class PlayerFireStrategy implements FireStrategy {
             y = y + tankHeight / 2 - bulletHeight / 2;
             MoveDir[] values = MoveDir.values();
             for (int i = 0; i < values.length - 1; ++i) {
-                GameModelMgr.getInstance().add(new Bullet(x, y, values[i]));
+                GameModelMgr.getInstance().add(new Bullet(x, y, values[i], Camp.PLAYER));
             }
         }
     }

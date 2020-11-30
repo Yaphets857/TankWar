@@ -1,5 +1,6 @@
 package com.yaphets.model;
 
+import com.yaphets.collide.ColliderChain;
 import com.yaphets.factory.GameObjectFactory;
 import com.yaphets.utils.GamePropertiesMgr;
 
@@ -38,6 +39,11 @@ public class GameModelMgr {
      * 爆炸类游戏图元列表
      */
     private List<Explode> explodes = new LinkedList<>();
+
+    /**
+     * 碰撞检测职责链:用于判断游戏元素是否碰撞
+     */
+    ColliderChain colliderChain = new ColliderChain();
 
     private GameModelMgr() {
     }
@@ -129,8 +135,21 @@ public class GameModelMgr {
         for (int i = 0; i < gameObjects.size(); ++i) {
             gameObjects.get(i).paint(g);
         }
-
+        collideDetect();
         paintGameMessage(g);
+    }
+
+    /**
+     * 碰撞检测
+     */
+    private void collideDetect() {
+        for (int i = 0; i < gameObjects.size(); i++) {
+            for (int j = 1; j < gameObjects.size(); j++) {
+                if (colliderChain.isCollided(gameObjects.get(i), gameObjects.get(j))) {
+                    return;
+                }
+            }
+        }
     }
 
     public List<GameObject> getGameObjects() {
